@@ -5,6 +5,7 @@ public class Case {
 	// information about the case
 	private boolean hasDust;
 	private boolean hasJewel;
+	private boolean hasRobot;
 	private int coordx;
 	private int coordy;
 	
@@ -18,12 +19,15 @@ public class Case {
 		this.coordy=y;
 		this.hasDust=false;
 		this.hasJewel=false;
+		this.hasRobot=false;
 	}
 	
 	// Getter
 	public boolean getHasDust() {return this.hasDust;}
 	
 	public boolean getHasJewel() {return this.hasJewel;}
+	
+	public boolean getHasRobot() {return this.hasRobot;}
 	
 	public int getCoordX() {return this.coordx;}
 	
@@ -34,7 +38,9 @@ public class Case {
 	public void setHasDust(boolean dust) {this.hasDust=dust;}
 	
 	public void setHasJewel(boolean jewel) {this.hasJewel=jewel;}
-	
+
+	public void setHasRobot(boolean robot) {this.hasRobot=robot;}
+
 	public void setCoordX(int x) {this.coordx=x;}
 	
 	public void setCoordY(int y) {this.coordy=y;}

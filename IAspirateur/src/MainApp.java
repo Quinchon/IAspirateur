@@ -19,7 +19,7 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		
 		try {
-			primaryStage.setTitle("Scrabble") ;
+			primaryStage.setTitle("IAspirateur") ;
 			primaryStage.setResizable(false);
 			Group root = new Group() ;
 			Scene scene = new Scene(root,602,602) ;
@@ -30,6 +30,8 @@ public class MainApp extends Application {
 			// TEST
 			this.model.getPlateau().get(5).get(5).setHasDust(true);
 			this.model.getPlateau().get(5).get(6).setHasJewel(true);
+			this.model.getPlateau().get(6).get(6).setHasJewel(true);
+			this.model.getPlateau().get(6).get(6).setHasRobot(true);
 			
 			// Creation of the board
 			this.board = new EnvironnementView(model) ;
@@ -45,6 +47,7 @@ public class MainApp extends Application {
 		essai();
 	}
 
+	
 	/**
 	 * main
 	 * @param args
@@ -58,15 +61,18 @@ public class MainApp extends Application {
 	
 	public void essai() {
 		
-		
-		System.out.println("Hello World");
-		Environnement environnement = new Environnement();
-		for (int i=0; i<10; i++) {			
-			for (int j=0; j<10; j++) {
-				System.out.println("Case : x coordinate = "+environnement.getPlateau().get(i).get(j).getCoordX()+" |"
-						+ " y coordinate = "+environnement.getPlateau().get(i).get(j).getCoordY());
-			}
+		try {
+			Thread.currentThread().sleep(5000);
+			
+			this.model.getPlateau().get(6).get(6).setHasRobot(false);
+			this.model.getPlateau().get(7).get(6).setHasRobot(true);
+			
+			this.board.update();
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
+	
 	
 }
