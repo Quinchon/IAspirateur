@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * The model unit
+ * @author Quentin Dechaux & Aymeri Dumartheray
+ */
 public class Case {
 
 	// information about the case

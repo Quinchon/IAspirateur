@@ -12,7 +12,7 @@ import javafx.scene.text.FontWeight;
 
 
 /**
- * The abstract class of view case
+ * The class for a unit of the UI
  * @author Quentin Dechaux & Aymeri Dumartheray
  */
 public class CaseView extends AbstractView{
@@ -37,8 +37,7 @@ public class CaseView extends AbstractView{
 		super(model) ;
 		this.i = i ;
 		this.j = j ;
-		this.layout = new BorderPane();
-		
+		this.layout = new BorderPane();		
 		draw();
 	}
 

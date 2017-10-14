@@ -2,6 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
+
+/**
+ * The sensors of the agent
+ * @author Quentin Dechaux & Aymeri Dumartheray
+ */
 public class Capteurs{
 	
 	public void scanEnvironnement(Environnement environnement, ArrayList<Case> cases_with_dust, ArrayList<Case> cases_with_jewel) {

@@ -10,7 +10,7 @@ import model.Case;
 import model.Environnement;
 
 /**
- * The abstract class the view
+ * The class for the view containing the units
  * @author Quentin Dechaux & Aymeri Dumartheray
  */
 public class EnvironnementView extends AbstractView{
@@ -25,9 +25,7 @@ public class EnvironnementView extends AbstractView{
 	 */
 	public EnvironnementView(Environnement model) {
 		super(model);
-		
 		draw();
-		
 	}
 	
 	private void draw() {
@@ -50,19 +48,15 @@ public class EnvironnementView extends AbstractView{
 					ArrayList<CaseView> ligne = new ArrayList<CaseView>();
 					for (int j=0 ; j<10 ; j++) {
 						CaseView box = new CaseView(model,i,j) ;
+						super.model.attach(box); //Observer/Observable
 						ligne.add(box);
-						this.boxes.add(box, i, j) ;
+						this.boxes.add(box, j, i) ;
 					}
 					plateauView.add(ligne);	
 				}
 	}
 
 	public void update() {
-		for (int i=0 ; i<10 ; i++) {
-			for (int j=0 ; j<10 ; j++) {
-				plateauView.get(i).get(j).update();
-			}
-		}
 	}
 
 }

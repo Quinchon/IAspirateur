@@ -6,7 +6,10 @@ enum Action {
 	UP, DOWN, LEFT, RIGHT, SUCK, PICK, IDLE
 }
 
-
+/**
+ * The agent
+ * @author Quentin Dechaux & Aymeri Dumartheray
+ */
 public class Agent {
 	
 	private Environnement environnement;
