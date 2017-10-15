@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.abs;
+
 enum Action {
 	UP, DOWN, LEFT, RIGHT, SUCK, PICK, IDLE
 }
@@ -19,8 +21,9 @@ public class Agent {
 	
 	private int score;
 	
-	ArrayList<Case> cases_with_dust = new ArrayList<Case>();
-	ArrayList<Case> cases_with_jewel = new ArrayList<Case>();
+	ArrayList<Case> cases_not_empty = new ArrayList<Case>();
+	
+	Case goal;
 	
 	ArrayList<Action> sequence_of_actions = new ArrayList<Action>();
 	
@@ -38,11 +41,11 @@ public class Agent {
 		switch (action) {
 		case UP:
 			if (coordy < 9)
-				coordy ++;
+				coordy --;
 			break;
 		case DOWN:
 			if (coordy > 0)
-				coordy --;
+				coordy ++;
 			break;
 		case LEFT:
 			if (coordx > 0)
@@ -68,16 +71,61 @@ public class Agent {
 	
 	
 	public void observeEnvironmentWithAllMySensors() {
-		capteurs.scanEnvironnement(environnement, cases_with_dust, cases_with_jewel);
+		capteurs.scanEnvironnement(environnement, cases_not_empty);
 		score = capteurs.getScore(environnement);
 	}
 	
-//	public void updateMyState() {
-//		
-//	}
+	public void updateMyState() {
+		goal = cases_not_empty.get(0);
+		int min_dist = abs(coordx - goal.getCoordX()) + abs(coordy - goal.getCoordY());
+		int case_dist;
+		
+		for (Case case_tested : cases_not_empty) {
+			case_dist = abs(coordx - case_tested.getCoordX()) + abs(coordy - case_tested.getCoordY());
+			if (case_dist < min_dist) {
+				min_dist = case_dist;
+				goal = case_tested;
+			}
+		}
+	}
 	
 	public void chooseAnAction(){
 		
+		if (sequence_of_actions.isEmpty()){
+		
+		int x = coordx;
+		int y = coordy;
+		
+		while(x != goal.getCoordX()) {
+			if (x > goal.getCoordX()) {
+				sequence_of_actions.add(Action.LEFT);
+				x --;
+			}
+			if (x < goal.getCoordX()) {
+				sequence_of_actions.add(Action.RIGHT);
+				x ++;
+			}
+		}
+		
+		while(y != goal.getCoordY()) {
+			if (y > goal.getCoordY()) {
+				sequence_of_actions.add(Action.UP);
+				y --;
+			}
+			if (y < goal.getCoordY()) {
+				sequence_of_actions.add(Action.DOWN);
+				y ++;
+			}
+		}
+		
+		if (capteurs.hasJewel(goal)) {
+			sequence_of_actions.add(Action.PICK);
+		}
+		if (capteurs.hasDust(goal)) {
+			sequence_of_actions.add(Action.SUCK);
+		}
+		
+		}
 	}
 	
 	public void justDoIt() {

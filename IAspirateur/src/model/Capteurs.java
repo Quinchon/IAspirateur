@@ -9,19 +9,23 @@ import java.util.ArrayList;
  */
 public class Capteurs{
 	
-	public void scanEnvironnement(Environnement environnement, ArrayList<Case> cases_with_dust, ArrayList<Case> cases_with_jewel) {
+	public void scanEnvironnement(Environnement environnement, ArrayList<Case> cases_not_empty) {
 		for(int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
-				if (environnement.hasDust(i,j)) {
+				if (environnement.hasDust(i,j) || environnement.hasJewel(i, j)) {
 					Case cellule = new Case(i,j);
-					cases_with_dust.add(cellule);
-				}
-				if (environnement.hasJewel(i,j)) {
-					Case cellule = new Case(i,j);
-					cases_with_jewel.add(cellule);
+					cases_not_empty.add(cellule);
 				}
 			}
 		}
+	}
+	
+	public boolean hasDust(Case case_tested) {
+		return case_tested.getHasDust();
+	}
+	
+	public boolean hasJewel(Case case_tested) {
+		return case_tested.getHasJewel();
 	}
 	
 	public int getScore(Environnement environnement) {
