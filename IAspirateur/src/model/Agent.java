@@ -161,10 +161,9 @@ public class Agent extends Thread{
 	}
 	
 	public void justDoIt() {
-		while (!sequence_of_actions.isEmpty()) {
 		takeAction(sequence_of_actions.get(0));
 		sequence_of_actions.remove(0);
-		}
+		
 	}
 	
 	public boolean AmIAlive() {
@@ -178,10 +177,12 @@ public class Agent extends Thread{
 		while(AmIAlive()) {
 			try {
 				Thread.currentThread().sleep(500);
+				if(sequence_of_actions.isEmpty()) {
 				System.out.print("Boucle Start !!! Position de l'aspi :" + coordx + "/" + coordy + "\n");
 				observeEnvironmentWithAllMySensors();
 				updateMyState();
 				chooseAnAction();
+				}
 				justDoIt();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
