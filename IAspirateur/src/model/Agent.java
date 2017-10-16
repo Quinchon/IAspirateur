@@ -57,11 +57,11 @@ public class Agent extends Thread{
 		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(false);
 		switch (action) {
 		case UP:
-			if (coordy < 9)
+			if (coordy > 0)
 				coordy --;
 			break;
 		case DOWN:
-			if (coordy > 0)
+			if (coordy < 9)
 				coordy ++;
 			break;
 		case LEFT:
@@ -161,9 +161,10 @@ public class Agent extends Thread{
 	}
 	
 	public void justDoIt() {
+		if (!sequence_of_actions.isEmpty()) {
 		takeAction(sequence_of_actions.get(0));
 		sequence_of_actions.remove(0);
-		
+		}		
 	}
 	
 	public boolean AmIAlive() {
