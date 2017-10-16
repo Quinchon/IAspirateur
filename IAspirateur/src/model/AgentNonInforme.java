@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class AgentNonInforme extends Agent {
 
-	public AgentNonInforme (Environnement environnement, int coordx, int coordy) {
-		super(environnement, coordx, coordy);
+	public AgentNonInforme (Environnement environnement, int coordx, int coordy,int cpt) {
+		super(environnement, coordx, coordy, cpt);
 	}
 
 	public void chooseAnAction(){
@@ -28,11 +28,7 @@ public class AgentNonInforme extends Agent {
 					case_marquees[i][j] = 0;  
 				}
 			}
-			System.out.print("max depth :" + max_depth + "\n");
 		}
-		
-		System.out.println("MAX DEPTH FINAL:" + max_depth);
-
 		if (sequence_of_actions.isEmpty()) {
 			sequence_of_actions.add(Action.IDLE);
 		}
@@ -43,11 +39,8 @@ public class AgentNonInforme extends Agent {
 
 	private boolean explore(Environnement environnement, int x, int y, int depth, int max_depth, int[][] case_marquees) {
 		case_marquees[x][y] = 1;
-
-		System.out.println("Je suis dans explore, position:" + x + "/" + y);
-
+		
 		if (environnement.hasJewel(x, y) || environnement.hasDust(x, y)) {
-			System.out.println("JE SUIS SUR UNE CASE SALE OMG");
 			if (environnement.hasJewel(x, y)) {
 				sequence_of_actions.add(Action.PICK);
 			}
@@ -58,12 +51,10 @@ public class AgentNonInforme extends Agent {
 		}
 
 
-		System.out.println("valeur de depth :" + depth + "valeur de max_depth" + max_depth +" test depth < max_depth:" + (depth < max_depth));
 		if (depth < max_depth) {
 
 			//Explore UP
 			if (y > 0 && case_marquees[x][y-1] == 0) {
-				System.out.println("Je tente le UP");
 				sequence_of_actions.add(Action.UP);
 				if (explore(environnement, x, y - 1, depth + 1, max_depth, case_marquees)) {
 					return true;
@@ -75,7 +66,6 @@ public class AgentNonInforme extends Agent {
 
 			//Explore DOWN
 			if (y < 9 && case_marquees[x][y+1] == 0) {
-				System.out.println("Je tente le DOWN");
 				sequence_of_actions.add(Action.DOWN);
 				if (explore(environnement, x, y + 1, depth + 1, max_depth, case_marquees)) {
 					return true;
@@ -87,7 +77,6 @@ public class AgentNonInforme extends Agent {
 
 			//Explore LEFT
 			if (x > 0 && case_marquees[x-1][y] == 0) {
-				System.out.println("Je tente le LEFT");
 				sequence_of_actions.add(Action.LEFT);
 				if (explore(environnement, x - 1, y, depth + 1, max_depth, case_marquees)) {
 					return true;
@@ -99,7 +88,6 @@ public class AgentNonInforme extends Agent {
 
 			//Explore RIGHT
 			if (x < 9 && case_marquees[x+1][y] == 0) {
-				System.out.println("Je tente le RIGHT");
 				sequence_of_actions.add(Action.RIGHT);
 				if (explore(environnement, x + 1, y, depth + 1, max_depth, case_marquees)) {
 					return true;

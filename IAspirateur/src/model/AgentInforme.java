@@ -4,8 +4,8 @@ import static java.lang.Math.abs;
 
 public class AgentInforme extends Agent {
 
-	public AgentInforme (Environnement environnement, int coordx, int coordy) {
-		super(environnement, coordx, coordy);
+	public AgentInforme (Environnement environnement, int coordx, int coordy, int cpt) {
+		super(environnement, coordx, coordy, cpt);
 	}
 
 	public void chooseAnAction(){

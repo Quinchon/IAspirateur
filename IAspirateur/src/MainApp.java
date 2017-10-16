@@ -72,8 +72,8 @@ public class MainApp extends Application {
 			this.refresh = new Refresh(this.model) ;
 			
 			// Creation of the AI
-			//this.robotIA = new AgentInforme(this.model,4,4);
-			this.robotIA = new AgentNonInforme(this.model,4,4);
+			//this.robotIA = new AgentInforme(this.model,4,4,8);
+			this.robotIA = new AgentNonInforme(this.model,4,4,20);
 			
 			// Begin the "boucle du model". Launch a thread.
 			this.model.start();

@@ -17,6 +17,9 @@ public abstract class Agent extends Thread{
 	protected boolean living;
 	protected boolean working;
 
+	protected int cpt; 
+	protected int compteurAction;
+
 
 	ArrayList<Case> cases_not_empty = new ArrayList<Case>();
 
@@ -34,14 +37,18 @@ public abstract class Agent extends Thread{
 	 * @param coordx
 	 * @param coordy
 	 */
-	public Agent(Environnement environnement, int coordx, int coordy) {
+	public Agent(Environnement environnement, int coordx, int coordy, int cptAction) {
 		this.environnement = environnement;
 		this.coordx = coordx;
 		this.coordy = coordy;
 		this.living=true;
 		this.working = false;
+		this.compteurAction = cptAction;
+		this.cpt=this.compteurAction;
 
 		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(true);
+
+		observeEnvironmentWithAllMySensors();
 	}
 
 
@@ -88,10 +95,19 @@ public abstract class Agent extends Thread{
 	}
 
 	public void updateMyState() {
-		if(sequence_of_actions.isEmpty()) {
-			working = false;
+		if(this.cpt == 0) {
+			sequence_of_actions.clear();
+			observeEnvironmentWithAllMySensors();
+			this.working=false;
+			this.cpt=this.compteurAction;
 		}
-		else working = true;
+		else {
+			if(sequence_of_actions.isEmpty()) {
+				working = false;
+			}
+			else working = true;
+		}
+
 	}
 
 	abstract void chooseAnAction();
@@ -115,10 +131,12 @@ public abstract class Agent extends Thread{
 			try {
 				Thread.currentThread().sleep(500);
 				System.out.print("Position de l'aspi :" + coordx + "/" + coordy + "\n");
-				observeEnvironmentWithAllMySensors();
 				updateMyState();
 				chooseAnAction();
 				justDoIt();
+				this.cpt --;
+				System.out.println("cpt = "+this.cpt);
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
