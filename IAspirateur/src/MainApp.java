@@ -4,8 +4,10 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.Agent;
 import model.Environnement;
 import view.EnvironnementView;
+import view.Refresh;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -20,6 +22,8 @@ public class MainApp extends Application {
 
 	private Environnement model ;
 	private EnvironnementView board ;
+	private Refresh refresh;
+	private Agent robotIA;
 
 	/**
 	 * Start the graphical interface
@@ -44,11 +48,9 @@ public class MainApp extends Application {
 			this.model.getPlateau().get(1).get(2).setHasDust(true);
 			this.model.getPlateau().get(8).get(6).setHasDust(true);
 			this.model.getPlateau().get(2).get(4).setHasDust(true);
-			
+
 			this.model.getPlateau().get(5).get(6).setHasJewel(true);
 			this.model.getPlateau().get(1).get(9).setHasJewel(true);
-			
-			this.model.getPlateau().get(8).get(5).setHasRobot(true);
 
 			// Print the UI. Launch a thread.
 			primaryStage.setScene(scene) ;
@@ -63,8 +65,20 @@ public class MainApp extends Application {
 				}
 			});
 
-			// Begin the "boucle de jeu". Launch a thread.
+			// Creation of the refreshment UI manager
+			this.refresh = new Refresh(this.model) ;
+			
+			// Creation of the AI
+			this.robotIA = new Agent(this.model,4,4);
+			
+			// Begin the "boucle du model". Launch a thread.
 			this.model.start();
+			
+			// Begin the "boucle de l'agent". Launch a thread.
+			this.robotIA.start();
+			
+			// Begin the "Boucle de rafraichissement de l'UI". Launch a thread.
+			this.refresh.start();
 		}
 		catch(Exception e) {
 			e.printStackTrace() ;

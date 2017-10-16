@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import javafx.application.Platform;
+
 import static java.lang.Math.abs;
 
 
@@ -9,12 +11,14 @@ import static java.lang.Math.abs;
  * The agent
  * @author Quentin Dechaux & Aymeri Dumartheray
  */
-public class Agent {
+public class Agent extends Thread{
 	
 	private Environnement environnement;
 	
 	private int coordx;
 	private int coordy;
+	
+	private boolean living;
 	
 	private int score;
 	
@@ -27,11 +31,23 @@ public class Agent {
 	private Capteurs capteurs = new Capteurs();
 	private Effecteurs effecteurs = new Effecteurs();
 	
+	
+	/**
+	 * Constructor of the Agent
+	 * @param environnement
+	 * @param coordx
+	 * @param coordy
+	 */
 	public Agent(Environnement environnement, int coordx, int coordy) {
 		this.environnement = environnement;
 		this.coordx = coordx;
 		this.coordy = coordy;
+		this.living=true;
+		
+		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(true);
 	}
+	
+	
 	
 //Gérer les exceptions à l'avenir !!
 	public void takeAction(Action action) {
@@ -128,6 +144,24 @@ public class Agent {
 		while (!sequence_of_actions.isEmpty()) {
 		takeAction(sequence_of_actions.get(0));
 		sequence_of_actions.remove(0);
+		}
+	}
+	
+	public boolean AmIAlive() {
+		return this.living;
+	}
+	
+	
+	// *** BOUCLE DE L'AGENT ***
+	public void run() {
+		
+		while(AmIAlive()) {
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

@@ -92,9 +92,7 @@ public class Environnement extends Observable{
 	public void setScore(int score) {this.score = score;}
 
 
-	
-	// Run 
-	//***BOUCLE DE JEU***
+	//***BOUCLE DU MODEL***
 
 	public void run() {
 
@@ -106,41 +104,24 @@ public class Environnement extends Observable{
 			
 			// For the exemple 
 			try {
-				Thread.currentThread().sleep(1000);
+				Thread.currentThread().sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			if (!h) {
-				this.getPlateau().get(8).get(5).setHasRobot(false);
-				this.getPlateau().get(7).get(5).setHasRobot(true);
+				this.getPlateau().get(4).get(4).setHasRobot(false);
+				this.getPlateau().get(5).get(4).setHasRobot(true);
 				h=true;
 			}
 			else {
-				this.getPlateau().get(7).get(5).setHasRobot(false);
-				this.getPlateau().get(8).get(5).setHasRobot(true);
+				this.getPlateau().get(5).get(4).setHasRobot(false);
+				this.getPlateau().get(4).get(4).setHasRobot(true);
 				h=false;
 			}
 			
 			//TODO
 			// Modify the Environnement
 			
-			//TODO
-			//Modify the AI 
-			
-
-			
-			
-			
-			// Refresh the UI with JavaFx tools
-			new Thread(new Runnable() {
-			    @Override public void run() {
-			        Platform.runLater(new Runnable() {
-			            @Override public void run() {
-			            	notifyAllObserver();
-			            }
-			        });
-			    }
-			}).start();
 		}
 		
 		
