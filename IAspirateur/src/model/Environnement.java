@@ -90,11 +90,17 @@ public class Environnement extends Observable{
 	
 	private void GenerateDirt() {
 		boolean dirtPut = false;
+		int counter = 99;
 		while(!dirtPut) {
+			counter--;
 			int x =(int)((Math.random())*10);
 			int y =(int)((Math.random())*10);
+			
 			if(!this.getPlateau().get(x).get(y).getHasDust()) {
 				this.getPlateau().get(x).get(y).setHasDust(true);
+				dirtPut=true;
+			}
+			if(counter==0) {
 				dirtPut=true;
 			}
 		}		
@@ -102,11 +108,16 @@ public class Environnement extends Observable{
 	
 	private void GenerateJewel() {
 		boolean jewelPut = false;
+		int counter = 99;
 		while(!jewelPut) {
+			counter--;
 			int x =(int)((Math.random())*10);
 			int y =(int)((Math.random())*10);
 			if(!this.getPlateau().get(x).get(y).getHasJewel()) {
 				this.getPlateau().get(x).get(y).setHasJewel(true);
+				jewelPut=true;
+			}
+			if(counter==0) {
 				jewelPut=true;
 			}
 		}
