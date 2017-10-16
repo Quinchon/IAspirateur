@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Agent;
+import model.AgentInforme;
+import model.AgentNonInforme;
 import model.Environnement;
 import view.EnvironnementView;
 import view.Refresh;
@@ -45,13 +47,13 @@ public class MainApp extends Application {
 			root.getChildren().add(this.board) ;
 
 			// Initiate the game
-			this.model.getPlateau().get(5).get(5).setHasDust(true);
-			this.model.getPlateau().get(1).get(2).setHasDust(true);
-			this.model.getPlateau().get(8).get(6).setHasDust(true);
-			this.model.getPlateau().get(2).get(4).setHasDust(true);
-
-			this.model.getPlateau().get(5).get(6).setHasJewel(true);
-			this.model.getPlateau().get(1).get(9).setHasJewel(true);
+//			this.model.getPlateau().get(5).get(5).setHasDust(true);
+//			this.model.getPlateau().get(1).get(2).setHasDust(true);
+//			this.model.getPlateau().get(8).get(6).setHasDust(true);
+//			this.model.getPlateau().get(2).get(4).setHasDust(true);
+//
+//			this.model.getPlateau().get(5).get(6).setHasJewel(true);
+//			this.model.getPlateau().get(1).get(9).setHasJewel(true);
 
 			// Print the UI. Launch a thread.
 			primaryStage.setScene(scene) ;
@@ -70,7 +72,8 @@ public class MainApp extends Application {
 			this.refresh = new Refresh(this.model) ;
 			
 			// Creation of the AI
-			this.robotIA = new Agent(this.model,4,4);
+			//this.robotIA = new AgentInforme(this.model,4,4);
+			this.robotIA = new AgentNonInforme(this.model,4,4);
 			
 			// Begin the "boucle du model". Launch a thread.
 			this.model.start();
