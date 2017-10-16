@@ -20,7 +20,10 @@ public class Agent extends Thread{
 	
 	private boolean living;
 	
-	private int score;
+//	private int score[] = new int[10];
+//	
+//	int tours = 0;
+//	int max_tours = 20;
 	
 	ArrayList<Case> cases_not_empty = new ArrayList<Case>();
 	
@@ -85,7 +88,6 @@ public class Agent extends Thread{
 	
 	public void observeEnvironmentWithAllMySensors() {
 		cases_not_empty = capteurs.scanEnvironnement(environnement);
-		score = capteurs.getScore(environnement);
 	}
 	
 	public void updateMyState() {
@@ -158,6 +160,10 @@ public class Agent extends Thread{
 		while(AmIAlive()) {
 			try {
 				Thread.currentThread().sleep(500);
+				observeEnvironmentWithAllMySensors();
+				updateMyState();
+				chooseAnAction();
+				justDoIt();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
