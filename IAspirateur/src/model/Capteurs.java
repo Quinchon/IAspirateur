@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * The sensors of the agent
@@ -36,8 +35,6 @@ public class Capteurs{
 	public boolean hasJewel(Case case_tested) {
 		return case_tested.getHasJewel();
 	}
-	
-	
 	
 	public int getScore(Environnement environnement) {
 		return environnement.getScore();
@@ -86,8 +83,7 @@ public class Capteurs{
 //		return false;
 //	}
 //	
-//}
-//
+
 
 //if (depth < 9) {
 //	
