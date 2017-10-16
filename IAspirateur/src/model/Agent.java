@@ -54,6 +54,7 @@ public class Agent extends Thread{
 	
 //Gérer les exceptions à l'avenir !!
 	public void takeAction(Action action) {
+		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(false);
 		switch (action) {
 		case UP:
 			if (coordy < 9)
@@ -80,6 +81,7 @@ public class Agent extends Thread{
 		case IDLE:
 			break;
 		}
+		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(true);
 	}
 	
 	
@@ -88,9 +90,13 @@ public class Agent extends Thread{
 	
 	public void observeEnvironmentWithAllMySensors() {
 		cases_not_empty = capteurs.scanEnvironnement(environnement);
+		System.out.print("scan ok\n");
 	}
 	
 	public void updateMyState() {
+		
+		if (!cases_not_empty.isEmpty()) {
+		
 		goal = cases_not_empty.get(0);
 		int min_dist = abs(coordx - goal.getCoordX()) + abs(coordy - goal.getCoordY());
 		int case_dist;
@@ -101,6 +107,10 @@ public class Agent extends Thread{
 				min_dist = case_dist;
 				goal = case_tested;
 			}
+		}
+		
+		System.out.print("Case choisie :" + goal.getCoordX() + "/" + goal.getCoordY() + "\n");
+		
 		}
 	}
 	
@@ -114,10 +124,12 @@ public class Agent extends Thread{
 		while(x != goal.getCoordX()) {
 			if (x > goal.getCoordX()) {
 				sequence_of_actions.add(Action.LEFT);
+				System.out.print("Ajout action GAUCHE\n");
 				x --;
 			}
 			if (x < goal.getCoordX()) {
 				sequence_of_actions.add(Action.RIGHT);
+				System.out.print("Ajout action DROITE\n");
 				x ++;
 			}
 		}
@@ -125,19 +137,25 @@ public class Agent extends Thread{
 		while(y != goal.getCoordY()) {
 			if (y > goal.getCoordY()) {
 				sequence_of_actions.add(Action.UP);
+				System.out.print("Ajout action HAUT\n");
 				y --;
 			}
 			if (y < goal.getCoordY()) {
 				sequence_of_actions.add(Action.DOWN);
+				System.out.print("Ajout action BAS\n");
 				y ++;
 			}
 		}
 		
-		if (capteurs.hasJewel(goal)) {
+		System.out.print("TEST = " + capteurs.hasDust(environnement, goal) + "\n");
+		System.out.print("TEST2 = " + environnement.hasDust(goal.getCoordX(), goal.getCoordY()) + "\n");
+		if (capteurs.hasJewel(environnement, goal)) {
 			sequence_of_actions.add(Action.PICK);
+			System.out.print("Ajout action RAMASSE\n");
 		}
-		if (capteurs.hasDust(goal)) {
+		if (capteurs.hasDust(environnement, goal)) {
 			sequence_of_actions.add(Action.SUCK);
+			System.out.print("Ajout action ASPIRE\n");
 		}
 		
 	}
@@ -160,6 +178,7 @@ public class Agent extends Thread{
 		while(AmIAlive()) {
 			try {
 				Thread.currentThread().sleep(500);
+				System.out.print("Boucle Start !!! Position de l'aspi :" + coordx + "/" + coordy + "\n");
 				observeEnvironmentWithAllMySensors();
 				updateMyState();
 				chooseAnAction();

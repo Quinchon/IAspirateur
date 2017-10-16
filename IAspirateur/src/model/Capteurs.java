@@ -27,12 +27,12 @@ public class Capteurs{
 	}
 	
 	
-	public boolean hasDust(Case case_tested) {
-		return case_tested.getHasDust();
+	public boolean hasDust(Environnement environnement, Case case_tested) {
+		return environnement.hasDust(case_tested.getCoordX(), case_tested.getCoordY());
 	}
 	
-	public boolean hasJewel(Case case_tested) {
-		return case_tested.getHasJewel();
+	public boolean hasJewel(Environnement environnement, Case case_tested) {
+		return environnement.hasJewel(case_tested.getCoordX(), case_tested.getCoordY());
 	}
 	
 	public int getScore(Environnement environnement) {
