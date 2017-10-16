@@ -19,7 +19,12 @@ public class Environnement extends Observable{
 	private int suckJewel = -2;
 	private int uselessAction = 0;
 	private int score = 0;
+	private boolean gameIsRunning;
 
+
+	/**
+	 * Constructor of Environnement
+	 */
 	public Environnement() {
 
 		for (int i=0; i<10; i++) {
@@ -32,6 +37,8 @@ public class Environnement extends Observable{
 
 			plateau.add(ligne);	
 		}
+		
+		this.gameIsRunning=true;
 
 	}
 
@@ -73,12 +80,45 @@ public class Environnement extends Observable{
 		setScore(this.score + input);
 	}
 
+	public boolean shouldThereBeANewDirtySpace() {
+		return (Math.random()*100 < 20);
+	}
+
+	public boolean shouldThereBeANewLostJewel() {
+		return (Math.random()*100 < 5);
+	}
+	
+	private void GenerateDirt() {
+		boolean dirtPut = false;
+		while(!dirtPut) {
+			int x =(int)((Math.random())*10);
+			int y =(int)((Math.random())*10);
+			if(!this.getPlateau().get(x).get(y).getHasDust()) {
+				this.getPlateau().get(x).get(y).setHasDust(true);
+				dirtPut=true;
+			}
+		}		
+	}
+	
+	private void GenerateJewel() {
+		boolean jewelPut = false;
+		while(!jewelPut) {
+			int x =(int)((Math.random())*10);
+			int y =(int)((Math.random())*10);
+			if(!this.getPlateau().get(x).get(y).getHasJewel()) {
+				this.getPlateau().get(x).get(y).setHasJewel(true);
+				jewelPut=true;
+			}
+		}
+		
+	}
+
 	// Getter
 
 	public ArrayList<ArrayList<Case>> getPlateau(){
 		return this.plateau;
 	}
-	
+
 	public Case getCase(int x, int y) {
 		return this.plateau.get(x).get(y);
 	}
@@ -86,45 +126,44 @@ public class Environnement extends Observable{
 	public int getScore() {
 		return this.score;
 	}
+	
+	private boolean gameIsRunning() {
+		return this.gameIsRunning;
+	}
 
 	// Setter
 
 	public void setScore(int score) {this.score = score;}
 
 
+
 	//***BOUCLE DU MODEL***
 
 	public void run() {
-
-		boolean h =false; // For the exemple
-		
-		while(true) {
-			
-			
-			
-			// For the exemple 
+		//boolean h =false; // For the exemple
+		while (gameIsRunning()){
 			try {
 				Thread.currentThread().sleep(500);
+				if (shouldThereBeANewDirtySpace())
+					GenerateDirt();
+					if (shouldThereBeANewLostJewel())
+						GenerateJewel();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (!h) {
-				this.getPlateau().get(4).get(4).setHasRobot(false);
-				this.getPlateau().get(5).get(4).setHasRobot(true);
-				h=true;
-			}
-			else {
-				this.getPlateau().get(5).get(4).setHasRobot(false);
-				this.getPlateau().get(4).get(4).setHasRobot(true);
-				h=false;
-			}
-			
-			//TODO
-			// Modify the Environnement
-			
+			// For the exemple
+			//				if (!h) {
+			//					this.getPlateau().get(4).get(4).setHasRobot(false);
+			//					this.getPlateau().get(5).get(4).setHasRobot(true);
+			//					h=true;
+			//				}
+			//				else {
+			//					this.getPlateau().get(5).get(4).setHasRobot(false);
+			//					this.getPlateau().get(4).get(4).setHasRobot(true);
+			//					h=false;
+			//				}
 		}
-		
-		
 
 	}
+
 }

@@ -30,6 +30,7 @@ public class MainApp extends Application {
 	 */
 	public void start(Stage primaryStage) {
 
+
 		try {
 			primaryStage.setTitle("IAspirateur") ;
 			primaryStage.setResizable(false);
