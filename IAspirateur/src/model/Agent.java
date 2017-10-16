@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 
-enum Action {
-	UP, DOWN, LEFT, RIGHT, SUCK, PICK, IDLE
-}
 
 /**
  * The agent
@@ -66,12 +63,12 @@ public class Agent {
 		}
 	}
 	
-	//test
+	
 	
 	
 	
 	public void observeEnvironmentWithAllMySensors() {
-		capteurs.scanEnvironnement(environnement, cases_not_empty);
+		cases_not_empty = capteurs.scanEnvironnement(environnement);
 		score = capteurs.getScore(environnement);
 	}
 	
@@ -91,7 +88,7 @@ public class Agent {
 	
 	public void chooseAnAction(){
 		
-		if (sequence_of_actions.isEmpty()){
+		//sequence_of_actions = capteurs.createSequence(environnement, coordx, coordy, 0);
 		
 		int x = coordx;
 		int y = coordy;
@@ -125,12 +122,13 @@ public class Agent {
 			sequence_of_actions.add(Action.SUCK);
 		}
 		
-		}
 	}
 	
 	public void justDoIt() {
+		while (!sequence_of_actions.isEmpty()) {
 		takeAction(sequence_of_actions.get(0));
 		sequence_of_actions.remove(0);
+		}
 	}
 	
 }

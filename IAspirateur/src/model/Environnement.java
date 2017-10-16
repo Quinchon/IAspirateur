@@ -78,6 +78,10 @@ public class Environnement extends Observable{
 	public ArrayList<ArrayList<Case>> getPlateau(){
 		return this.plateau;
 	}
+	
+	public Case getCase(int x, int y) {
+		return this.plateau.get(x).get(y);
+	}
 
 	public int getScore() {
 		return this.score;
