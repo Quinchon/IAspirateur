@@ -52,24 +52,24 @@ public abstract class Agent extends Thread{
 	}
 
 
-
+	// Execute the action
 	//Gérer les exceptions à l'avenir !!
 	public void takeAction(Action action) {
 		this.environnement.getPlateau().get(coordx).get(coordy).setHasRobot(false);
 		switch (action) {
-		case UP:
+		case LEFT:
 			if (coordy > 0)
 				coordy --;
 			break;
-		case DOWN:
+		case RIGHT:
 			if (coordy < 9)
 				coordy ++;
 			break;
-		case LEFT:
+		case UP:
 			if (coordx > 0)
 				coordx --;
 			break;
-		case RIGHT:
+		case DOWN :
 			if (coordx < 9)
 				coordx ++;
 			break;
@@ -86,39 +86,37 @@ public abstract class Agent extends Thread{
 	}
 
 
-
-
-
+	// Decide when to observe the environnement
 	public void observeEnvironmentWithAllMySensors() {
-		cases_not_empty = capteurs.scanEnvironnement(environnement);
-		System.out.print("scan ok\n");
-	}
-
-	public void updateMyState() {
 		if(this.cpt == 0) {
 			sequence_of_actions.clear();
-			observeEnvironmentWithAllMySensors();
-			this.working=false;
 			this.cpt=this.compteurAction;
-		}
-		else {
-			if(sequence_of_actions.isEmpty()) {
-				working = false;
-			}
-			else working = true;
-		}
-
+			cases_not_empty = capteurs.scanEnvironnement(environnement);
+			System.out.print("scan ok\n");
+		}		
 	}
 
+	// Update the state of the agent
+	public void updateMyState() {
+		if(sequence_of_actions.isEmpty()) {
+			working = false;
+		}
+		else working = true;
+	}
+
+	// Find the actions to do
 	abstract void chooseAnAction();
 
+	// Execute the first action from the action sequence
 	public void justDoIt() {
 		if (!sequence_of_actions.isEmpty()) {
+			System.out.println("action = "+sequence_of_actions.get(0));
 			takeAction(sequence_of_actions.get(0));
 			sequence_of_actions.remove(0);
 		}		
 	}
 
+	// Determine if the agent should be running or not
 	public boolean AmIAlive() {
 		return this.living;
 	}
@@ -130,7 +128,7 @@ public abstract class Agent extends Thread{
 		while(AmIAlive()) {
 			try {
 				Thread.currentThread().sleep(500);
-				System.out.print("Position de l'aspi :" + coordx + "/" + coordy + "\n");
+				observeEnvironmentWithAllMySensors();
 				updateMyState();
 				chooseAnAction();
 				justDoIt();
